@@ -34,24 +34,32 @@ export const Todo = ({ todo, onDelete, onToggle, onUpdate }: TodoProps) => {
 
   return (
     <div className={`Todo ${todo.completed ? 'completed' : 'incompleted'}`}>
-      {isEditing ? (
-        <input
-          type="text"
-          value={editValue}
-          onChange={(e) => setEditValue(e.target.value)}
-        />
-      ) : showAsCompleted ? (
-        <code className="completed-code">{todo.text}</code>
-      ) : (
-        <p onClick={() => onToggle(todo._id)}>{todo.text}</p>
-      )}
+      <div
+        className="todo-content"
+        onClick={() => !isEditing && onToggle(todo._id)}
+      >
+        {isEditing ? (
+          <input
+            type="text"
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            className="todo-edit-input"
+          />
+        ) : showAsCompleted ? (
+          <code className="completed-code">{todo.text}</code>
+        ) : (
+          <p>{todo.text}</p>
+        )}
+      </div>
 
-      <button className="edit-icon" onClick={handleEdit}>
-        {isEditing ? '💾' : '✏️'}
-      </button>
-      <button className="delete-icon" onClick={handleDelete}>
-        🗑️
-      </button>
+      <div className="todo-actions">
+        <button className="edit-icon" onClick={handleEdit}>
+          {isEditing ? '💾' : '✏️'}
+        </button>
+        <button className="delete-icon" onClick={handleDelete}>
+          🗑️
+        </button>
+      </div>
     </div>
   );
 };

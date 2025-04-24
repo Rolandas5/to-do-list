@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import './register.css';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 export const Register = () => {
@@ -45,7 +45,7 @@ export const Register = () => {
 
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
-            <label htmlFor="name">Pilnas Vardas ir Pavarde</label>
+            <label htmlFor="name">Vardas ir Pavardė</label>
             <input
               type="text"
               id="name"
@@ -95,7 +95,13 @@ export const Register = () => {
         </form>
 
         <div className="login-link">
-          Ar jau turite paskyra? <Link to="/login">Prisijunkite</Link>
+          Ar jau turite paskyrą?{' '}
+          <NavLink
+            to="/login"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+          >
+            Prisijunkite
+          </NavLink>
         </div>
       </div>
     </div>

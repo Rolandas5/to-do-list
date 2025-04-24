@@ -54,7 +54,7 @@ export const TodoWrapper = () => {
   return (
     <div className="TodoWrapper">
       <h1>Užduočių sąrašas</h1>
-      <h2>Užduočių skaičius: {todos.length}</h2>
+      <h2 className="task-count">Užduočių skaičius: {todos.length}</h2>
 
       <input
         type="text"

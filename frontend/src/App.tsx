@@ -1,11 +1,31 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Navigation } from './components/Navigation/Navigation';
+import { Register } from './components/Register/Register';
+import { Login } from './components/Login/Login';
+import { Dashboard } from './components/Dashboard/Dashboard';
+import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { TodoWrapper } from './components/TodoWrapper';
 
 function App() {
   return (
-    <div className="App">
-      <TodoWrapper />
-    </div>
+    <Router>
+      <AuthProvider>
+        <div className="App">
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<TodoWrapper />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+            {/* <Route path="*" element={<NotFound />} /> */}
+          </Routes>
+        </div>
+      </AuthProvider>
+    </Router>
   );
 }
 

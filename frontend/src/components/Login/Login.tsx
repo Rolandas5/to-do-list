@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import '../Register/register.css';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 export const Login = () => {
@@ -49,7 +49,13 @@ export const Login = () => {
         </form>
 
         <div className="login-link">
-          Neturite paskyros? <Link to="/register">Registruokites</Link>
+          Neturite paskyros?{' '}
+          <NavLink
+            to="/register"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+          >
+            Registruokitės
+          </NavLink>
         </div>
       </div>
     </div>

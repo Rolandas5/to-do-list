@@ -2,11 +2,9 @@
   background-color: #ffffff;
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navigation-container {
@@ -18,66 +16,55 @@
 }
 
 .navigation-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: #2d3748;
-}
-
-.navigation-logo span {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #63b3ed;
+  color: #2b6cb0;
+  user-select: none;
+  pointer-events: none;
+  margin-right: 2rem;
+}
+
+.nav-icon {
+  margin-right: 0.4rem;
+  font-size: 1.3rem;
+  vertical-align: middle;
 }
 
 .navigation ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   gap: 2rem;
-  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .navigation a {
   text-decoration: none;
-  color: #4a5568;
-  font-weight: 500;
+  color: #2d3748;
   font-size: 1.1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
   position: relative;
+  padding: 0.25rem 0;
 }
 
 .navigation a::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
+  width: 0%;
   height: 2px;
-  background: linear-gradient(90deg, #3182ce, #63b3ed);
-  transition: width 0.2s ease-in-out;
+  left: 0;
+  bottom: -2px;
+  background: #3182ce;
+  transition: width 0.3s ease;
 }
 
-.navigation a:hover {
-  color: #3182ce;
-}
-
-.navigation a:hover::after {
-  width: 80%;
+.navigation a:hover::after,
+.navigation .active::after {
+  width: 100%;
 }
 
 .navigation .active {
   color: #3182ce;
-  background-color: #ebf8ff;
-}
-
-.navigation .active::after {
-  width: 80%;
+  font-weight: 600;
 }
 
 .logout-button {
