@@ -1,19 +1,27 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const todoRoutes = require('./routes/todos');
+const todosRoutes = require('./routes/todosRoutes');
+const authRoutes = require('./routes/authRoutes');
 
+dotenv.config();
+
+const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use('/api/todos', todosRoutes);
+app.use('/api/auth', authRoutes);
 
-mongoose.connect('mongodb://localhost:27017/todolist', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-app.use('/api/todos', todoRoutes);
-
-app.listen(3001, () => {
-  console.log('Server veikia ant http://localhost:3001');
-});
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('Prisijungta prie MongoDB');
+    app.listen(PORT, () => {
+      console.log(`Serveris veikia: http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Klaida jungiantis prie DB:', err);
+  });

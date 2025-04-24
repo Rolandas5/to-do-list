@@ -17,11 +17,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 .App {
   text-align: center;
 }
@@ -53,6 +48,17 @@ h1 {
   margin-bottom: 2rem;
   width: 300px;
   color: #fff;
+}
+
+.completed-code {
+  background-color: #1e1e1e;
+  color: #c5ffae;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
 }
 
 .todo-input::placeholder {
@@ -93,7 +99,40 @@ h1 {
   cursor: pointer;
 }
 
+.search-input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .edit-icon,
 .delete-icon {
   cursor: pointer;
+}
+
+.edit-icon,
+.delete-icon {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+  color: #4df3ff;
+}
+
+.edit-icon:active {
+  color: #00b3e3;
+}
+
+.delete-icon:active {
+  color: #ff1a1a;
+}
+
+.delete-icon:hover {
+  color: #ff4d4d;
 }
