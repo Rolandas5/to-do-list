@@ -5,8 +5,9 @@ import { Todo } from './Todo';
 
 interface TodoItem {
   _id: string;
-  text: string;
-  completed: boolean;
+  title: string;
+  description: string;
+  status: 'nebaigta' | 'baigta';
 }
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -19,9 +20,13 @@ export const TodoWrapper = () => {
     axios.get(`${API_URL}/api/todos`).then((res) => setTodos(res.data));
   }, []);
 
-  const addTodo = (text: string) => {
+  const addTodo = (
+    title: string,
+    description: string,
+    status: 'nebaigta' | 'baigta'
+  ) => {
     axios
-      .post(`${API_URL}/api/todos`, { text })
+      .post(`${API_URL}/api/todos`, { title, description, status })
       .then((res) => setTodos([...todos, res.data]));
   };
 
@@ -31,24 +36,18 @@ export const TodoWrapper = () => {
       .then(() => setTodos(todos.filter((todo) => todo._id !== id)));
   };
 
-  const toggleTodo = (id: string) => {
+  const updateTodo = (id: string, updatedFields: Partial<TodoItem>) => {
     axios
-      .put(`${API_URL}/api/todos/${id}`)
+      .put(`${API_URL}/api/todos/${id}/edit`, updatedFields)
       .then((res) =>
         setTodos(todos.map((todo) => (todo._id === id ? res.data : todo)))
       );
   };
 
-  const updateTodo = (id: string, newText: string) => {
-    axios
-      .put(`${API_URL}/api/todos/${id}/edit`, { text: newText })
-      .then((res) =>
-        setTodos(todos.map((todo) => (todo._id === id ? res.data : todo)))
-      );
-  };
-
-  const filteredTodos = todos.filter((todo) =>
-    todo.text.toLowerCase().includes(searchText.toLowerCase())
+  const filteredTodos = todos.filter(
+    (todo) =>
+      todo.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      todo.description.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -71,7 +70,6 @@ export const TodoWrapper = () => {
           key={todo._id}
           todo={todo}
           onDelete={deleteTodo}
-          onToggle={toggleTodo}
           onUpdate={updateTodo}
         />
       ))}

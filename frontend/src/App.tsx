@@ -15,12 +15,17 @@ function App() {
         <div className="App">
           <Navigation />
           <Routes>
+            {/* Vieši puslapiai */}
             <Route path="/" element={<TodoWrapper />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+
+            {/* Apsaugoti puslapiai */}
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
+
+            {/* 404 puslapis ateičiai */}
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
         </div>

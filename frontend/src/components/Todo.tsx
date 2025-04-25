@@ -2,58 +2,90 @@ import { useState } from 'react';
 
 interface TodoItem {
   _id: string;
-  text: string;
-  completed: boolean;
+  title: string;
+  description: string;
+  status: 'nebaigta' | 'baigta';
 }
 
 interface TodoProps {
   todo: TodoItem;
   onDelete: (id: string) => void;
-  onToggle: (id: string) => void;
-  onUpdate: (id: string, newText: string) => void;
+  onUpdate: (id: string, updatedTodo: Partial<TodoItem>) => void;
 }
 
-export const Todo = ({ todo, onDelete, onToggle, onUpdate }: TodoProps) => {
+export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(todo.text);
-  const [showAsCompleted, setShowAsCompleted] = useState(false);
+  const [editTitle, setEditTitle] = useState(todo.title);
+  const [editDescription, setEditDescription] = useState(todo.description);
+  const [editStatus, setEditStatus] = useState<'nebaigta' | 'baigta'>(
+    todo.status
+  );
+  const [showAsDeleted, setShowAsDeleted] = useState(false);
 
-  const handleEdit = () => {
-    if (isEditing && editValue.trim()) {
-      onUpdate(todo._id, editValue.trim());
+  const handleEditSave = () => {
+    if (isEditing) {
+      onUpdate(todo._id, {
+        title: editTitle.trim(),
+        description: editDescription.trim(),
+        status: editStatus,
+      });
     }
     setIsEditing(!isEditing);
   };
 
   const handleDelete = () => {
-    setShowAsCompleted(true);
+    setShowAsDeleted(true);
     setTimeout(() => {
       onDelete(todo._id);
-    }, 1000); // parodymas 1s prieš ištrinant
+    }, 1000);
   };
 
   return (
-    <div className={`Todo ${todo.completed ? 'completed' : 'incompleted'}`}>
-      <div
-        className="todo-content"
-        onClick={() => !isEditing && onToggle(todo._id)}
-      >
+    <div
+      className={`Todo ${
+        todo.status === 'baigta' ? 'completed' : 'incompleted'
+      }`}
+    >
+      <div className="todo-content">
         {isEditing ? (
-          <input
-            type="text"
-            value={editValue}
-            onChange={(e) => setEditValue(e.target.value)}
-            className="todo-edit-input"
-          />
-        ) : showAsCompleted ? (
-          <code className="completed-code">{todo.text}</code>
+          <>
+            <input
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              placeholder="Pavadinimas"
+              className="todo-edit-input"
+            />
+            <textarea
+              value={editDescription}
+              onChange={(e) => setEditDescription(e.target.value)}
+              placeholder="Aprašymas"
+              className="todo-edit-textarea"
+            />
+            <select
+              value={editStatus}
+              onChange={(e) =>
+                setEditStatus(e.target.value as 'nebaigta' | 'baigta')
+              }
+              className="todo-edit-select"
+            >
+              <option value="nebaigta">Nebaigta</option>
+              <option value="baigta">Baigta</option>
+            </select>
+          </>
+        ) : showAsDeleted ? (
+          <code className="completed-code">{todo.title}</code>
         ) : (
-          <p>{todo.text}</p>
+          <>
+            <h3>{todo.title}</h3>
+            <p>{todo.description}</p>
+            <p className="todo-status">Statusas: {todo.status}</p>
+          </>
         )}
       </div>
 
       <div className="todo-actions">
-        <button className="edit-icon" onClick={handleEdit}>
+        <button className="edit-icon" onClick={handleEditSave}>
           {isEditing ? '💾' : '✏️'}
         </button>
         <button className="delete-icon" onClick={handleDelete}>

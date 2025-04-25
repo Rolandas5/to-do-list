@@ -18,8 +18,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  register: (name: string, email: string, password: string) => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -29,8 +29,8 @@ export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   isLoading: true,
   error: null,
-  register: async () => {},
-  login: async () => {},
+  register: async () => false,
+  login: async () => false,
   logout: () => {},
 });
 
@@ -54,13 +54,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (token) {
         try {
           setIsLoading(true);
-
           const config = {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           };
-
           const res = await axios.get(`${API_URL}/auth/user`, config);
 
           setUser(res.data);
@@ -80,7 +78,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     loadUser();
   }, [token]);
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (
+    name: string,
+    email: string,
+    password: string
+  ): Promise<boolean> => {
     try {
       setError(null);
       setIsLoading(true);
@@ -96,18 +98,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(res.data.user);
       setIsAuthenticated(true);
       navigate('/dashboard');
+      return true;
     } catch (error: unknown) {
       const errorMessage =
         axios.isAxiosError(error) && error.response?.data?.error
           ? error.response.data.error
           : 'Registration failed. Please try again.';
       setError(errorMessage);
+      return false;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setError(null);
       setIsLoading(true);
@@ -122,12 +126,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(res.data.user);
       setIsAuthenticated(true);
       navigate('/dashboard');
+      return true;
     } catch (error: unknown) {
       const errorMessage =
         axios.isAxiosError(error) && error.response?.data?.error
           ? error.response.data.error
           : 'Login failed. Please check your credentials.';
       setError(errorMessage);
+      return false;
     } finally {
       setIsLoading(false);
     }

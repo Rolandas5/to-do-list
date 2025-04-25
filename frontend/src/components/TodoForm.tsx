@@ -1,17 +1,25 @@
 import { useState, FormEvent } from 'react';
 
 interface TodoFormProps {
-  addTodo: (text: string) => void;
+  addTodo: (
+    title: string,
+    description: string,
+    status: 'nebaigta' | 'baigta'
+  ) => void;
 }
 
 export const TodoForm = ({ addTodo }: TodoFormProps) => {
-  const [value, setValue] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [status, setStatus] = useState<'nebaigta' | 'baigta'>('nebaigta');
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (value.trim()) {
-      addTodo(value.trim());
-      setValue('');
+    if (title.trim() && description.trim()) {
+      addTodo(title.trim(), description.trim(), status);
+      setTitle('');
+      setDescription('');
+      setStatus('nebaigta');
     }
   };
 
@@ -19,12 +27,29 @@ export const TodoForm = ({ addTodo }: TodoFormProps) => {
     <form onSubmit={handleSubmit} className="todo-form">
       <input
         className="todo-input"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder="Įrašykite užduotį"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Įrašykite pavadinimą"
+        required
       />
+      <textarea
+        className="todo-textarea"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Įrašykite aprašymą"
+        required
+      />
+      <select
+        className="todo-select"
+        value={status}
+        onChange={(e) => setStatus(e.target.value as 'nebaigta' | 'baigta')}
+        required
+      >
+        <option value="nebaigta">Nebaigta</option>
+        <option value="baigta">Baigta</option>
+      </select>
       <button type="submit" className="todo-btn">
-        Pridėti
+        Pridėti užduotį
       </button>
     </form>
   );

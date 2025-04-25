@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './navigation.css';
 
 export const Navigation = () => {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <nav className="navigation">
@@ -32,11 +33,15 @@ export const Navigation = () => {
                 Dashboard
               </NavLink>
             </li>
-            <li>
-              <button className="logout-button" onClick={logout}>
-                Atsijungti
-              </button>
-            </li>
+            <button
+              className="logout-button"
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
+            >
+              Atsijungti
+            </button>
             {user?.role === 'admin' && (
               <li>
                 <NavLink

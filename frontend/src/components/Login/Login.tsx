@@ -1,18 +1,22 @@
 import { useContext, useState } from 'react';
 import '../Register/register.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await login(email, password);
+    const success = await login(email, password);
+    if (success) {
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -22,7 +26,7 @@ export const Login = () => {
 
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
-            <label htmlFor="name">Email</label>
+            <label htmlFor="email">Email</label>
             <input
               type="text"
               id="email"
@@ -33,7 +37,7 @@ export const Login = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Password</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
@@ -44,7 +48,7 @@ export const Login = () => {
           </div>
 
           <button type="submit" className="register-button">
-            {'Prisijungti'}
+            Prisijungti
           </button>
         </form>
 
