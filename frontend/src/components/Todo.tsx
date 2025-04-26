@@ -4,7 +4,7 @@ interface TodoItem {
   _id: string;
   title: string;
   description: string;
-  status: 'nebaigta' | 'baigta';
+  status: 'nebaigta' | 'atlikta';
 }
 
 interface TodoProps {
@@ -17,35 +17,31 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editDescription, setEditDescription] = useState(todo.description);
-  const [editStatus, setEditStatus] = useState<'nebaigta' | 'baigta'>(
+  const [editStatus, setEditStatus] = useState<'nebaigta' | 'atlikta'>(
     todo.status
   );
   const [showAsDeleted, setShowAsDeleted] = useState(false);
 
-  const handleEditSave = () => {
-    if (isEditing) {
+  const handleSave = () => {
+    if (editTitle.trim() && editDescription.trim()) {
       onUpdate(todo._id, {
         title: editTitle.trim(),
         description: editDescription.trim(),
         status: editStatus,
       });
+      setIsEditing(false); // išeinam iš edit režimo tik po sėkmingo išsaugojimo
     }
-    setIsEditing(!isEditing);
   };
 
   const handleDelete = () => {
     setShowAsDeleted(true);
     setTimeout(() => {
       onDelete(todo._id);
-    }, 1000);
+    }, 800); // šiek tiek trumpesnis delay, atrodo gražiau
   };
 
   return (
-    <div
-      className={`Todo ${
-        todo.status === 'baigta' ? 'completed' : 'incompleted'
-      }`}
-    >
+    <div className={`Todo ${todo.status === 'atlikta' ? 'completed' : ''}`}>
       <div className="todo-content">
         {isEditing ? (
           <>
@@ -65,12 +61,12 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
             <select
               value={editStatus}
               onChange={(e) =>
-                setEditStatus(e.target.value as 'nebaigta' | 'baigta')
+                setEditStatus(e.target.value as 'nebaigta' | 'atlikta')
               }
               className="todo-edit-select"
             >
               <option value="nebaigta">Nebaigta</option>
-              <option value="baigta">Baigta</option>
+              <option value="atlikta">Atlikta</option>
             </select>
           </>
         ) : showAsDeleted ? (
@@ -85,9 +81,15 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
       </div>
 
       <div className="todo-actions">
-        <button className="edit-icon" onClick={handleEditSave}>
-          {isEditing ? '💾' : '✏️'}
-        </button>
+        {isEditing ? (
+          <button className="save-icon" onClick={handleSave}>
+            💾
+          </button>
+        ) : (
+          <button className="edit-icon" onClick={() => setIsEditing(true)}>
+            ✏️
+          </button>
+        )}
         <button className="delete-icon" onClick={handleDelete}>
           🗑️
         </button>

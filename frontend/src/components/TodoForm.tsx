@@ -4,14 +4,14 @@ interface TodoFormProps {
   addTodo: (
     title: string,
     description: string,
-    status: 'nebaigta' | 'baigta'
+    status: 'nebaigta' | 'atlikta'
   ) => void;
 }
 
 export const TodoForm = ({ addTodo }: TodoFormProps) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [status, setStatus] = useState<'nebaigta' | 'baigta'>('nebaigta');
+  const [status, setStatus] = useState<'nebaigta' | 'atlikta'>('nebaigta');
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -42,11 +42,11 @@ export const TodoForm = ({ addTodo }: TodoFormProps) => {
       <select
         className="todo-select"
         value={status}
-        onChange={(e) => setStatus(e.target.value as 'nebaigta' | 'baigta')}
+        onChange={(e) => setStatus(e.target.value as 'nebaigta' | 'atlikta')}
         required
       >
         <option value="nebaigta">Nebaigta</option>
-        <option value="baigta">Baigta</option>
+        <option value="atlikta">Atlikta</option>
       </select>
       <button type="submit" className="todo-btn">
         Pridėti užduotį
