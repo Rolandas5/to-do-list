@@ -39,8 +39,8 @@ h1 {
   margin-top: 5rem;
   padding: 2rem;
   border-radius: 5px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
-
 .TodoForm {
   width: 100%;
   margin-bottom: 1rem;
@@ -189,6 +189,52 @@ h1 {
   cursor: pointer;
 }
 
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.confirm-btn {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: #333;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #e60000;
+}
+
+.cancel-btn:hover {
+  background-color: #999;
+}
+
+.select-all-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.select-all-container input {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+}
+
 .Todo {
   display: flex;
   justify-content: space-between;
@@ -284,29 +330,43 @@ h1 {
   cursor: pointer;
 }
 
-.edit-icon,
 .delete-icon {
   background: none;
-  border: none;
+  padding: 8px;
   font-size: 1.2rem;
+  border: 2px solid #ff4d4d;
+  border-radius: 8px;
   cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.edit-icon:hover {
-  color: #4df3ff;
-}
-
-.edit-icon:active {
-  color: #00b3e3;
-}
-
-.delete-icon:active {
-  color: #ff1a1a;
+  transition: background-color 0.3s, transform 0.1s ease;
 }
 
 .delete-icon:hover {
-  color: #ff4d4d;
+  background-color: #e60000; /* tamsesnė raudona kai užvedi */
+}
+
+.delete-icon:active {
+  transform: scale(0.95); /* kai spaudi mygtuką jis švelniai sumažėja */
+  color: #ff1a1a;
+}
+
+.edit-icon {
+  background: none;
+  border: none;
+  padding: 8px;
+  font-size: 1.2rem;
+  border: 2px solid green;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s ease;
+}
+
+.edit-icon:hover {
+  background-color: #4df3ff;
+}
+
+.edit-icon:active {
+  transform: scale(0.95);
+  color: #00b3e3;
 }
 
 @keyframes fadeIn {

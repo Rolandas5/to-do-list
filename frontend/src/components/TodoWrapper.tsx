@@ -16,6 +16,7 @@ interface Notification {
   message: string;
   type: 'success' | 'error' | 'delete';
 }
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const TodoWrapper = () => {
@@ -23,8 +24,11 @@ export const TodoWrapper = () => {
   const [searchText, setSearchText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notification, setNotification] = useState<Notification | null>(null);
+  const [selectedTodos, setSelectedTodos] = useState<string[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const completedCount = todos.filter(
     (todo) => todo.status === 'atlikta'
   ).length;
@@ -40,16 +44,22 @@ export const TodoWrapper = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios
-        .get(`${API_URL}/api/todos`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          },
-        })
-        .then((res) => setTodos(res.data))
-        .catch((err) => console.error('Klaida gaunant užduotis', err));
+      fetchTodos();
     }
   }, [isAuthenticated]);
+
+  const fetchTodos = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/todos`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
+      setTodos(res.data);
+    } catch (err) {
+      console.error('Klaida gaunant užduotis', err);
+    }
+  };
 
   const showNotification = (
     message: string,
@@ -59,13 +69,13 @@ export const TodoWrapper = () => {
     setTimeout(() => setNotification(null), 3000);
   };
 
-  const addTodo = (
+  const addTodo = async (
     title: string,
     description: string,
     status: 'nebaigta' | 'atlikta'
   ) => {
-    axios
-      .post(
+    try {
+      const res = await axios.post(
         `${API_URL}/api/todos`,
         { title, description, status },
         {
@@ -73,57 +83,91 @@ export const TodoWrapper = () => {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           },
         }
-      )
-      .then((res) => {
-        setTodos((prev) => [...prev, res.data]);
-        setIsModalOpen(false);
-        showNotification('✅ Užduotis sėkmingai pridėta!', 'success');
-      })
-      .catch((err) => {
-        console.error('Klaida kuriant užduotį', err);
-        showNotification('❌ Klaida kuriant užduotį.', 'error');
-      });
+      );
+      setTodos((prev) => [...prev, res.data]);
+      setIsModalOpen(false);
+      showNotification('✅ Užduotis sėkmingai pridėta!', 'success');
+    } catch (err) {
+      console.error('Klaida kuriant užduotį', err);
+      showNotification('❌ Klaida kuriant užduotį.', 'error');
+    }
   };
 
-  const deleteTodo = (id: string) => {
-    axios
-      .delete(`${API_URL}/api/todos/${id}`, {
+  const deleteTodo = async (id: string) => {
+    try {
+      await axios.delete(`${API_URL}/api/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
-      })
-      .then(() => {
-        setTodos(todos.filter((todo) => todo._id !== id));
-        showNotification('🗑️ Užduotis ištrinta.', 'delete');
-      })
-      .catch((err) => {
-        console.error('Klaida trinant užduotį', err);
-        showNotification('❌ Klaida trinant užduotį.', 'error');
       });
+      setTodos((prev) => prev.filter((todo) => todo._id !== id));
+      showNotification('🗑️ Užduotis sėkmingai ištrinta.', 'delete');
+    } catch (err) {
+      console.error('Klaida trinant užduotį', err);
+      showNotification('❌ Klaida trinant užduotį.', 'error');
+    }
   };
 
-  const updateTodo = (id: string, updatedFields: Partial<TodoItem>) => {
-    axios
-      .put(`${API_URL}/api/todos/${id}/edit`, updatedFields, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      })
-      .then((res) =>
-        setTodos(todos.map((todo) => (todo._id === id ? res.data : todo)))
-      )
-      .catch((err) => {
-        console.error('Klaida atnaujinant užduotį', err);
-        showNotification('❌ Klaida atnaujinant užduotį.', 'error');
-      });
+  const updateTodo = async (id: string, updatedFields: Partial<TodoItem>) => {
+    try {
+      const res = await axios.put(
+        `${API_URL}/api/todos/${id}/edit`,
+        updatedFields,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        }
+      );
+      setTodos((prev) =>
+        prev.map((todo) => (todo._id === id ? res.data : todo))
+      );
+    } catch (err) {
+      console.error('Klaida atnaujinant užduotį', err);
+      showNotification('❌ Klaida atnaujinant užduotį.', 'error');
+    }
   };
 
-  function normalizeText(text: string) {
-    return text
+  const toggleSelectTodo = (id: string) => {
+    setSelectedTodos((prev) =>
+      prev.includes(id) ? prev.filter((todoId) => todoId !== id) : [...prev, id]
+    );
+  };
+
+  const handleDeleteSelected = () => {
+    if (selectedTodos.length > 0) {
+      setIsConfirmModalOpen(true);
+    }
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await Promise.all(
+        selectedTodos.map((id) =>
+          axios.delete(`${API_URL}/api/todos/${id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
+          })
+        )
+      );
+      setTodos((prev) =>
+        prev.filter((todo) => !selectedTodos.includes(todo._id))
+      );
+      setSelectedTodos([]);
+      showNotification('🗑️ Pažymėtos užduotys ištrintos.', 'delete');
+    } catch (err) {
+      console.error('Klaida trinant pažymėtas užduotis', err);
+      showNotification('❌ Klaida trinant pažymėtas užduotis.', 'error');
+    }
+    setIsConfirmModalOpen(false);
+  };
+
+  const normalizeText = (text: string) =>
+    text
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\u0300-\u036f/g, '')
       .toLowerCase();
-  }
 
   const filteredTodos = todos.filter((todo) => {
     const normalizedTitle = normalizeText(todo.title);
@@ -139,7 +183,6 @@ export const TodoWrapper = () => {
     <div className="TodoWrapper">
       <h1>Užduočių sąrašas</h1>
 
-      {/* Užduočių statusų skaičiavimas */}
       <h2 className="completed-count">
         ✅ Atliktos užduotys: {completedCount}
       </h2>
@@ -147,12 +190,12 @@ export const TodoWrapper = () => {
         ⌛ Nebaigtos užduotys: {incompleteCount}
       </h2>
 
-      {/* Notification žinutė */}
       {notification && (
         <div className={`notification ${notification.type}`}>
           {notification.message}
         </div>
       )}
+
       <input
         type="text"
         placeholder="Ieškoti užduočių..."
@@ -161,9 +204,51 @@ export const TodoWrapper = () => {
         className="todo-input"
       />
 
+      <div className="select-all-container">
+        <label>
+          <input
+            type="checkbox"
+            checked={selectedTodos.length === todos.length && todos.length > 0}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setSelectedTodos(todos.map((todo) => todo._id));
+              } else {
+                setSelectedTodos([]);
+              }
+            }}
+          />
+          Pažymėti visas
+        </label>
+      </div>
+
       <button onClick={() => setIsModalOpen(true)} className="new-task-button">
         + Nauja užduotis
       </button>
+
+      {selectedTodos.length > 0 && (
+        <button onClick={handleDeleteSelected} className="delete-all-button">
+          🗑️ Ištrinti pažymėtas ({selectedTodos.length})
+        </button>
+      )}
+
+      {isConfirmModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Ar tikrai norite ištrinti pažymėtas užduotis?</h2>
+            <div className="modal-buttons">
+              <button onClick={confirmDelete} className="confirm-btn">
+                Taip
+              </button>
+              <button
+                onClick={() => setIsConfirmModalOpen(false)}
+                className="cancel-btn"
+              >
+                Ne
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className="modal-overlay">
@@ -181,12 +266,15 @@ export const TodoWrapper = () => {
       )}
 
       {filteredTodos.map((todo) => (
-        <Todo
-          key={todo._id}
-          todo={todo}
-          onDelete={deleteTodo}
-          onUpdate={updateTodo}
-        />
+        <div key={todo._id} style={{ display: 'flex', alignItems: 'center' }}>
+          <input
+            type="checkbox"
+            checked={selectedTodos.includes(todo._id)}
+            onChange={() => toggleSelectTodo(todo._id)}
+            style={{ marginRight: '10px' }}
+          />
+          <Todo todo={todo} onDelete={deleteTodo} onUpdate={updateTodo} />
+        </div>
       ))}
     </div>
   );
