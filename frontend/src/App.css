@@ -53,6 +53,19 @@ h1 {
   gap: 1rem;
 }
 
+.all-completed-message {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #e6ffed;
+  border: 1px solid #b2f5ea;
+  border-radius: 8px;
+  color: #38a169;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.2rem;
+  animation: fadeIn 1s ease forwards;
+}
+
 .todo-input {
   outline: none;
   color: #e0f2fe;
@@ -193,4 +206,15 @@ h1 {
 
 .delete-icon:hover {
   color: #ff4d4d;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

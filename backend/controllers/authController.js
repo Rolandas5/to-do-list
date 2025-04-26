@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
     // JWT_SECRET - tai yra Serverio slaptažodis, kad niekas negalėtų padirbti tokeno
     // expiresIn - tai yra laikas po kurio tokenas bus nebegaliojantis
     // TOKENAS NĖRA SAUGOMAS DUOENMŲ BAZĖJE, JIS ATIDUODAMAS NAUDOTOJUI!!!
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '30d',
     });
 
@@ -64,14 +64,10 @@ exports.login = async (req, res) => {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    // 4. Sugeneruojame JWT tokeną
-    const token = jwt.sign(
-      { userId: existingUser._id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '30d',
-      }
-    );
+    // 4. Sugeneruojame JWT tokeną (Login funkcija)
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+      expiresIn: '30d',
+    });
 
     // 5. Atiduodame tokeną žmogui
     // tokenas bus saugomas naršyklės localStorage
@@ -95,7 +91,7 @@ exports.getCurrentUser = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // 4. Išsitraukiame Userio duomenis is duomenu bazės pagal ID, išskyrus slaptažodį
-    const user = await User.findById(decoded.userId).select('-password'); // -password - tai yra, kad negrąžintume slaptažodžio
+    const user = await User.findById(decoded.id).select('-password'); // -password - tai yra, kad negrąžintume slaptažodžio
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
