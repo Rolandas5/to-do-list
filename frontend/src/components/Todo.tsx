@@ -75,7 +75,8 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
           <>
             <h3>{todo.title}</h3>
             <p>{todo.description}</p>
-            <p className="todo-status">Statusas: {todo.status}</p>
+            <p className="todo-status">{todo.status}</p>{' '}
+            {/* ČIA palikta TIK statusas */}
           </>
         )}
       </div>

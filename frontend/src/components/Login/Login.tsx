@@ -2,10 +2,12 @@ import { useContext, useState } from 'react';
 import '../Register/register.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5'; // 👈 Importuojam akis
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // 👈 Naujas state
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
@@ -36,15 +38,28 @@ export const Login = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group password-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'} // 👈 Rodo arba slepia
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline size={22} />
+                ) : (
+                  <IoEyeOutline size={22} />
+                )}
+              </button>
+            </div>
           </div>
 
           <button type="submit" className="register-button">
