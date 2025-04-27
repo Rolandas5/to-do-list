@@ -281,12 +281,17 @@ export const TodoWrapper = () => {
 
       <div className="tasks-container">
         {filteredTodos.map((todo) => (
-          <div key={todo._id} className="task-item">
+          <div
+            key={todo._id}
+            className={`task-item ${
+              todo.status === 'atlikta' ? 'completed' : ''
+            }`}
+          >
             <input
               type="checkbox"
-              className="task-checkbox"
               checked={selectedTodos.includes(todo._id)}
               onChange={() => toggleSelectTodo(todo._id)}
+              className="task-checkbox"
             />
             <Todo todo={todo} onDelete={deleteTodo} onUpdate={updateTodo} />
           </div>

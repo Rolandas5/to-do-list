@@ -287,6 +287,30 @@ h1 {
   overflow: hidden;
 }
 
+/* Kai uzduotis atlikta */
+.task-item.completed {
+  background-color: #d3d3d3; /* šviesiai pilka kortelės spalva */
+  animation: pulse 0.6s ease;
+}
+
+/* Kad tekstas viduje būtų pilkšvas ir perbrauktas */
+.task-item.completed h3,
+.task-item.completed p {
+  color: #777;
+  text-decoration: line-through;
+}
+
+/* Kai užduotis completed, delete-icon stovi pilkas */
+.task-item.completed .delete-icon {
+  background-color: #d3d3d3; /* Šviesiai pilkas fonas */
+  border: 2px solid #ff4d4d; /* Išlaikyti raudoną border */
+}
+
+/* Užvedus vis tiek bus raudonas fonas */
+.task-item.completed .delete-icon:hover {
+  background-color: #e60000; /* Tamsesnė raudona kai užvedi */
+}
+
 .task-checkbox {
   width: 20px;
   height: 20px;
@@ -321,36 +345,13 @@ h1 {
 
 .Todo {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #8758ff;
-  color: #fff;
-  padding: 0.75rem 1rem;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-}
-
-.Todo.completed {
-  background: #d3d3d3; /* Šiek tiek tamsesnė pilka */
-  color: #666; /* Pilkšvas tekstas */
-  text-decoration: line-through; /* Teksto perbraukimas */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s; /* Švelnus perėjimas */
-}
-
-.Todo p {
-  margin: 0;
-  font-size: 18px;
-  transition: all 0.3s ease;
-}
-
-.Todo.completed p {
-  color: grey;
-  text-decoration: line-through;
-}
-
-.Todo.incompleted.pulsate {
-  animation: pulse 0.6s ease;
+  justify-content: space-between;
+  background: transparent;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease; /* Švelnus perėjimas */
 }
 
 .todo-content {
