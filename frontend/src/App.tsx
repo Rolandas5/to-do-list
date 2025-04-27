@@ -6,7 +6,7 @@ import { Login } from './components/Login/Login';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
-import { TodoWrapper } from './components/TodoWrapper';
+import { TodoWrapper } from './components/TodoWrapper/TodoWrapper';
 
 function App() {
   return (
