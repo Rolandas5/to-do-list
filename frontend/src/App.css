@@ -151,6 +151,8 @@ h1 {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
+  min-width: 200px;
+  text-align: center;
 }
 
 .new-task-button:hover {
@@ -198,6 +200,7 @@ h1 {
 .confirm-btn {
   background-color: #ff4d4d;
   color: white;
+  font-weight: bold;
   padding: 8px 20px;
   border: none;
   margin-right: 10px;
@@ -206,9 +209,10 @@ h1 {
 }
 
 .cancel-btn {
-  background-color: #ccc;
+  background-color: #0cc11b;
   color: #333;
-  padding: 8px 20px;
+  font-weight: bold;
+  padding: 8px 25px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -219,20 +223,100 @@ h1 {
 }
 
 .cancel-btn:hover {
-  background-color: #999;
+  background-color: #0a8615;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 0 10px;
 }
 
 .select-all-container {
+  flex: 1;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
 }
 
-.select-all-container input {
+.middle-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.right-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.select-all-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.select-all-checkbox {
+  width: 20px;
+  height: 20px;
   margin-right: 8px;
-  width: 18px;
-  height: 18px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 80px;
+  max-height: 80px;
+  background-color: #7a5df2; /* violetinis fonas */
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+
+.task-item input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+
+.task-item > *:not(.task-checkbox) {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: white;
+  font-weight: bold;
+}
+
+.task-text {
+  text-align: justify;
+  width: 100%;
+  word-break: break-word;
 }
 
 .Todo {
@@ -330,8 +414,9 @@ h1 {
   cursor: pointer;
 }
 
-.delete-icon {
-  background: none;
+.delete-icon,
+.delete-all-button {
+  background: #8758ff;
   padding: 8px;
   font-size: 1.2rem;
   border: 2px solid #ff4d4d;
@@ -340,12 +425,14 @@ h1 {
   transition: background-color 0.3s, transform 0.1s ease;
 }
 
-.delete-icon:hover {
+.delete-icon:hover,
+.delete-all-button:hover {
   background-color: #e60000; /* tamsesnė raudona kai užvedi */
 }
 
-.delete-icon:active {
-  transform: scale(0.95); /* kai spaudi mygtuką jis švelniai sumažėja */
+.delete-icon:active,
+.delete-all-button:active {
+  transform: scale(0.95);
   color: #ff1a1a;
 }
 

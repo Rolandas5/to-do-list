@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { TodoForm } from './TodoForm';
+import { TodoForm } from './TodoForm/TodoForm';
 import { Todo } from './Todo';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -101,7 +101,7 @@ export const TodoWrapper = () => {
         },
       });
       setTodos((prev) => prev.filter((todo) => todo._id !== id));
-      showNotification('🗑️ Užduotis sėkmingai ištrinta.', 'delete');
+      showNotification('🗑️ Užduotis sėkmingai ištrinta!', 'delete');
     } catch (err) {
       console.error('Klaida trinant užduotį', err);
       showNotification('❌ Klaida trinant užduotį.', 'error');
@@ -204,32 +204,46 @@ export const TodoWrapper = () => {
         className="todo-input"
       />
 
-      <div className="select-all-container">
-        <label>
-          <input
-            type="checkbox"
-            checked={selectedTodos.length === todos.length && todos.length > 0}
-            onChange={(e) => {
-              if (e.target.checked) {
-                setSelectedTodos(todos.map((todo) => todo._id));
-              } else {
-                setSelectedTodos([]);
+      <div className="top-bar">
+        <div className="select-all-container">
+          <label className="select-all-label">
+            <input
+              type="checkbox"
+              className="select-all-checkbox"
+              checked={
+                selectedTodos.length === todos.length && todos.length > 0
               }
-            }}
-          />
-          Pažymėti visas
-        </label>
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedTodos(todos.map((todo) => todo._id));
+                } else {
+                  setSelectedTodos([]);
+                }
+              }}
+            />
+          </label>
+        </div>
+
+        <div className="middle-container">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="new-task-button"
+          >
+            Nauja užduotis
+          </button>
+        </div>
+
+        <div className="right-container">
+          {selectedTodos.length > 0 && (
+            <button
+              onClick={handleDeleteSelected}
+              className="delete-all-button"
+            >
+              🗑️ ({selectedTodos.length})
+            </button>
+          )}
+        </div>
       </div>
-
-      <button onClick={() => setIsModalOpen(true)} className="new-task-button">
-        + Nauja užduotis
-      </button>
-
-      {selectedTodos.length > 0 && (
-        <button onClick={handleDeleteSelected} className="delete-all-button">
-          🗑️ Ištrinti pažymėtas ({selectedTodos.length})
-        </button>
-      )}
 
       {isConfirmModalOpen && (
         <div className="modal-overlay">
@@ -265,17 +279,19 @@ export const TodoWrapper = () => {
         </div>
       )}
 
-      {filteredTodos.map((todo) => (
-        <div key={todo._id} style={{ display: 'flex', alignItems: 'center' }}>
-          <input
-            type="checkbox"
-            checked={selectedTodos.includes(todo._id)}
-            onChange={() => toggleSelectTodo(todo._id)}
-            style={{ marginRight: '10px' }}
-          />
-          <Todo todo={todo} onDelete={deleteTodo} onUpdate={updateTodo} />
-        </div>
-      ))}
+      <div className="tasks-container">
+        {filteredTodos.map((todo) => (
+          <div key={todo._id} className="task-item">
+            <input
+              type="checkbox"
+              className="task-checkbox"
+              checked={selectedTodos.includes(todo._id)}
+              onChange={() => toggleSelectTodo(todo._id)}
+            />
+            <Todo todo={todo} onDelete={deleteTodo} onUpdate={updateTodo} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

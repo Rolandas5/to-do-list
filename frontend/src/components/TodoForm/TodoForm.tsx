@@ -1,4 +1,5 @@
 import { useState, FormEvent } from 'react';
+import './todo-form.css';
 
 interface TodoFormProps {
   addTodo: (
@@ -26,21 +27,21 @@ export const TodoForm = ({ addTodo }: TodoFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="todo-form">
       <input
-        className="todo-input"
+        className="input-field"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Įrašykite pavadinimą"
         required
       />
       <textarea
-        className="todo-textarea"
+        className="textarea-field"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Įrašykite aprašymą"
         required
       />
       <select
-        className="todo-select"
+        className="select-field"
         value={status}
         onChange={(e) => setStatus(e.target.value as 'nebaigta' | 'atlikta')}
         required
@@ -48,7 +49,7 @@ export const TodoForm = ({ addTodo }: TodoFormProps) => {
         <option value="nebaigta">Nebaigta</option>
         <option value="atlikta">Atlikta</option>
       </select>
-      <button type="submit" className="todo-btn">
+      <button type="submit" className="submit-button">
         Pridėti užduotį
       </button>
     </form>
