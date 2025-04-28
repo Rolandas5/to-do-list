@@ -15,13 +15,11 @@ export const Register = () => {
   const validateForm = () => {
     setPasswordError('');
 
-    // Patikriname ar slaptazodziai sutampa
     if (password !== confirmPassword) {
       setPasswordError('Slaptazodziai nesutampa');
       return false;
     }
 
-    // Tikriname ar slaptazodis yra bent 6 simboliu ilgio
     if (password.length < 6) {
       setPasswordError('Slaptazodis yra per trumpas');
       return false;
@@ -49,48 +47,56 @@ export const Register = () => {
             <input
               type="text"
               id="name"
+              name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Email</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
+              type="email"
               id="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Password</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Confirm Password</label>
+            <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
+              name="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              autoComplete="new-password"
               required
             />
             {passwordError && <p className="field-error">{passwordError}</p>}
           </div>
 
           <button type="submit" className="register-button">
-            {'Registruotis'}
+            Registruotis
           </button>
         </form>
 
