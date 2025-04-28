@@ -4,7 +4,6 @@ import { TodoForm } from '../TodoForm/TodoForm';
 import { Todo } from '../Todo/Todo';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import './todo-wrapper.css';
 
 interface TodoItem {
   _id: string;

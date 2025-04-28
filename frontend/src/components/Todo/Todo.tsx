@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './todo.css';
 
 interface TodoItem {
   _id: string;
