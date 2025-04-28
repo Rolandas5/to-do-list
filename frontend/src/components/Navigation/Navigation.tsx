@@ -1,11 +1,12 @@
 import { useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './navigation.css';
 
 export const Navigation = () => {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation(); // Gaukite dabartinę vietą
 
   return (
     <nav className="navigation">
@@ -14,14 +15,17 @@ export const Navigation = () => {
         Užduotys <span className="nav-icon">👨‍💻</span>
       </div>
       <ul>
-        <li>
-          <NavLink
-            to="/"
-            className={({ isActive }) => (isActive ? 'active' : '')}
-          >
-            Pagrindinis
-          </NavLink>
-        </li>
+        {/* Tik jei nesame login puslapyje, rodom "Pagrindinis" */}
+        {location.pathname !== '/login' && (
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? 'active' : '')}
+            >
+              Pagrindinis
+            </NavLink>
+          </li>
+        )}
 
         {isAuthenticated ? (
           <>
@@ -54,14 +58,16 @@ export const Navigation = () => {
             )}
           </>
         ) : (
-          <li>
-            <NavLink
-              to="/login"
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
-              Prisijungti
-            </NavLink>
-          </li>
+          location.pathname !== '/login' && ( // Paslėpimas, jei esame login puslapyje
+            <li>
+              <NavLink
+                to="/login"
+                className={({ isActive }) => (isActive ? 'active' : '')}
+              >
+                Prisijungti
+              </NavLink>
+            </li>
+          )
         )}
       </ul>
     </nav>
