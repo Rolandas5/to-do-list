@@ -41,7 +41,7 @@ exports.createTodo = async (req, res) => {
   }
 };
 
-// Perjungti užduoties statusą (nebaigta/baigta)
+// Perjungti užduoties statusą (nebaigta/atlikta)
 exports.toggleTodo = async (req, res) => {
   try {
     const userId = req.user.id;

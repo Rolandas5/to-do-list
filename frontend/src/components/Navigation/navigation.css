@@ -75,13 +75,13 @@
 }
 
 .logout-button {
-  all: unset; /* ← atstatom visus naršyklės stilius */
+  all: unset; 
   font-size: 1.1rem;
   color: #4a5568;
   font-weight: 500;
   cursor: pointer;
   padding: 0.25rem 0;
-  line-height: 2.5; /* kaip ir navigation a */
+  line-height: 2.5; 
   position: relative;
   transition: color 0.2s ease-in-out;
 }

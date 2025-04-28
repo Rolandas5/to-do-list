@@ -29,7 +29,7 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
         description: editDescription.trim(),
         status: editStatus,
       });
-      setIsEditing(false); // išeinam iš edit režimo tik po sėkmingo išsaugojimo
+      setIsEditing(false);
     }
   };
 
@@ -37,7 +37,7 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
     setShowAsDeleted(true);
     setTimeout(() => {
       onDelete(todo._id);
-    }, 800); // šiek tiek trumpesnis delay, atrodo gražiau
+    }, 800);
   };
 
   return (
