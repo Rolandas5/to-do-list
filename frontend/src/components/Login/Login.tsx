@@ -2,12 +2,12 @@ import { useContext, useState } from 'react';
 import '../Register/register.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5'; // 👈 Importuojam akis
+import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // 👈 Naujas state
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const { login } = useContext(AuthContext);
@@ -42,7 +42,7 @@ export const Login = () => {
             <label htmlFor="password">Password</label>
             <div className="password-input-wrapper">
               <input
-                type={showPassword ? 'text' : 'password'} // 👈 Rodo arba slepia
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
