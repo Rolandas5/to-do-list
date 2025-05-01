@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import './dashboard.css';
 import { AuthContext } from '../../context/AuthContext';
+import { TodoWrapper } from '../TodoWrapper/TodoWrapper';
 
 export const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -13,6 +14,9 @@ export const Dashboard = () => {
       </div>
 
       <div className="dashboard-content">
+        {/* Užduočių langas Dashboarde */}
+        <TodoWrapper />
+
         <div className="dashboard-card">
           <h3>Account Information</h3>
           <div className="account-info">

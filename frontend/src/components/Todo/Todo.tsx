@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './todo.css';
 
 interface TodoItem {
   _id: string;
@@ -11,9 +12,17 @@ interface TodoProps {
   todo: TodoItem;
   onDelete: (id: string) => void;
   onUpdate: (id: string, updatedTodo: Partial<TodoItem>) => void;
+  isSelected: boolean;
+  onToggleSelect: (id: string) => void;
 }
 
-export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
+export const Todo = ({
+  todo,
+  onDelete,
+  onUpdate,
+  isSelected,
+  onToggleSelect,
+}: TodoProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editDescription, setEditDescription] = useState(todo.description);
@@ -40,8 +49,24 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
     }, 800);
   };
 
+  const toggleComplete = () => {
+    const newStatus = todo.status === 'nebaigta' ? 'atlikta' : 'nebaigta';
+    onUpdate(todo._id, { status: newStatus });
+  };
+
   return (
-    <div className={`Todo ${todo.status === 'atlikta' ? 'completed' : ''}`}>
+    <li
+      className={`task-item ${todo.status === 'atlikta' ? 'completed' : ''} ${
+        isSelected ? 'selected' : ''
+      }`}
+    >
+      <input
+        type="checkbox"
+        className="task-checkbox"
+        checked={isSelected}
+        onChange={() => onToggleSelect(todo._id)}
+      />
+
       <div className="todo-content">
         {isEditing ? (
           <>
@@ -73,28 +98,31 @@ export const Todo = ({ todo, onDelete, onUpdate }: TodoProps) => {
           <code className="completed-code">{todo.title}</code>
         ) : (
           <>
-            <h3>{todo.title}</h3>
+            <h3 onClick={toggleComplete}>{todo.title}</h3>
             <p>{todo.description}</p>
-            <p className="todo-status">{todo.status}</p>{' '}
-            {/* ČIA palikta TIK statusas */}
+            <p className="todo-status" onClick={toggleComplete}>
+              {todo.status}
+            </p>
           </>
         )}
       </div>
 
-      <div className="todo-actions">
-        {isEditing ? (
-          <button className="save-icon" onClick={handleSave}>
-            💾
+      {!showAsDeleted && (
+        <div className="todo-actions">
+          {isEditing ? (
+            <button className="save-icon" onClick={handleSave}>
+              💾
+            </button>
+          ) : (
+            <button className="edit-icon" onClick={() => setIsEditing(true)}>
+              ✏️
+            </button>
+          )}
+          <button className="delete-icon" onClick={handleDelete}>
+            🗑️
           </button>
-        ) : (
-          <button className="edit-icon" onClick={() => setIsEditing(true)}>
-            ✏️
-          </button>
-        )}
-        <button className="delete-icon" onClick={handleDelete}>
-          🗑️
-        </button>
-      </div>
-    </div>
+        </div>
+      )}
+    </li>
   );
 };

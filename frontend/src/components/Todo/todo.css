@@ -1,0 +1,170 @@
+.Todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #7a5df2;
+  gap: 1rem;
+  width: 100%;
+}
+
+.Todo .todo-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.Todo .todo-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow: hidden;
+  flex: 1;
+}
+
+.Todo .task-checkbox {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.Todo .todo-content h3,
+.Todo .todo-content p,
+.Todo .todo-content .todo-status {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* “Išsaugota” ikona */
+.Todo .save-icon {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.Todo .save-icon:hover {
+  background: #45a049;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+  background: #7a5df2;
+  border-radius: 10px;
+  gap: 1rem;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.25);
+}
+
+.task-item.completed {
+  background: #d3d3d3;
+}
+
+.task-item .task-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.task-item .todo-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.task-item .todo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-item.selected {
+  outline: 2px solid #00c853;
+  outline-offset: 2px;
+}
+
+/* Redagavimo laukai */
+.Todo .todo-edit-input,
+.Todo .todo-edit-textarea,
+.Todo .todo-edit-select {
+  box-sizing: border-box;
+  border: 2px solid #8758ff;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font-size: 1rem;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  margin-right: 0.5rem;
+}
+.Todo .todo-edit-input {
+  width: 120px;
+}
+.Todo .todo-edit-textarea {
+  flex: 1;
+  min-width: 200px;
+  resize: vertical;
+}
+.Todo .todo-edit-select {
+  width: 120px;
+  direction: rtl;
+  text-align: left;
+}
+.Todo .todo-edit-select option {
+  direction: ltr;
+}
+
+/* Edit/Delete mygtukai */
+.Todo .todo-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.Todo .edit-icon,
+.Todo .delete-icon {
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.Todo .edit-icon {
+  border-color: green;
+}
+.Todo .edit-icon:hover {
+  background: #4df3ff;
+}
+.Todo .delete-icon {
+  border-color: #ff4d4d;
+}
+.Todo .delete-icon:hover {
+  background: #e60000;
+}
+
+/* Pažymėta (completed) stilius */
+.Todo.completed .todo-content *,
+.Todo.completed .todo-content .todo-status {
+  color: #777;
+  text-decoration: line-through;
+}
+
+/* Apdorota (showAsDeleted) pavadinimas */
+.Todo .completed-code {
+  background-color: #1e1e1e;
+  color: #c5ffae;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}

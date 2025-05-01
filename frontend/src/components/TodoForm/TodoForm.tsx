@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import './todo-form.css';
+import '../TodoWrapper/todo-modal.css';
 
 interface TodoFormProps {
   addTodo: (

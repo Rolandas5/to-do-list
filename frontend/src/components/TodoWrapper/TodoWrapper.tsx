@@ -4,6 +4,8 @@ import { TodoForm } from '../TodoForm/TodoForm';
 import { Todo } from '../Todo/Todo';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import './todo-wrapper.css';
+import './todo-modal.css';
 
 interface TodoItem {
   _id: string;
@@ -206,22 +208,28 @@ export const TodoWrapper = () => {
 
       <div className="top-bar">
         <div className="select-all-container">
-          <label className="select-all-label">
-            <input
-              type="checkbox"
-              className="select-all-checkbox"
-              checked={
-                selectedTodos.length === todos.length && todos.length > 0
+          <input
+            type="checkbox"
+            className="select-all-checkbox"
+            checked={
+              filteredTodos.length > 0 &&
+              filteredTodos.every((todo) => selectedTodos.includes(todo._id))
+            }
+            onChange={(e) => {
+              if (e.target.checked) {
+                const visibleIds = filteredTodos.map((todo) => todo._id);
+                setSelectedTodos((prev) => [
+                  ...new Set([...prev, ...visibleIds]),
+                ]);
+              } else {
+                setSelectedTodos((prev) =>
+                  prev.filter(
+                    (id) => !filteredTodos.some((todo) => todo._id === id)
+                  )
+                );
               }
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedTodos(todos.map((todo) => todo._id));
-                } else {
-                  setSelectedTodos([]);
-                }
-              }}
-            />
-          </label>
+            }}
+          />
         </div>
 
         <div className="middle-container">
@@ -279,24 +287,18 @@ export const TodoWrapper = () => {
         </div>
       )}
 
-      <div className="tasks-container">
+      <ul className="tasks-container">
         {filteredTodos.map((todo) => (
-          <div
+          <Todo
             key={todo._id}
-            className={`task-item ${
-              todo.status === 'atlikta' ? 'completed' : ''
-            }`}
-          >
-            <input
-              type="checkbox"
-              checked={selectedTodos.includes(todo._id)}
-              onChange={() => toggleSelectTodo(todo._id)}
-              className="task-checkbox"
-            />
-            <Todo todo={todo} onDelete={deleteTodo} onUpdate={updateTodo} />
-          </div>
+            todo={todo}
+            onDelete={deleteTodo}
+            onUpdate={updateTodo}
+            isSelected={selectedTodos.includes(todo._id)}
+            onToggleSelect={toggleSelectTodo}
+          />
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
