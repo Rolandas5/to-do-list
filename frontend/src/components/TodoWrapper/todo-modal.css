@@ -13,7 +13,7 @@
 }
 
 .modal-content {
-  background: #1a1a40;
+  background: #7a5df2;
   color: #fff;
   padding: 2rem;
   border-radius: 8px;
@@ -98,7 +98,7 @@
   outline: none;
   transition: border-color 0.3s, box-shadow 0.3s;
   background: #fff;
-  color: #333;
+  color: black;
 }
 
 .todo-form .input-field:focus,
@@ -117,7 +117,7 @@
   width: 100%;
   padding: 0.8rem 1rem;
   font-size: 1rem;
-  background-color: #8758ff;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 6px;

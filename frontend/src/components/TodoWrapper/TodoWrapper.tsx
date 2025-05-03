@@ -4,6 +4,7 @@ import { TodoForm } from '../TodoForm/TodoForm';
 import { Todo } from '../Todo/Todo';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { FiSearch } from 'react-icons/fi';
 import './todo-wrapper.css';
 import './todo-modal.css';
 
@@ -198,13 +199,16 @@ export const TodoWrapper = () => {
         </div>
       )}
 
-      <input
-        type="text"
-        placeholder="Ieškoti užduočių..."
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        className="todo-input"
-      />
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Ieškoti užduočių..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="todo-input"
+        />
+        <FiSearch className="search-icon" />
+      </div>
 
       <div className="top-bar">
         <div className="select-all-container">

@@ -3,25 +3,24 @@
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  flex: 1; /* užima likusį Dashboard-content plotį */
-  min-width: 300px; /* nebus per siaura */
+  flex: 1;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  align-self: flex-start; /* stovi viršuje */
-  margin-left: auto; /* STUMIA Į DEŠINĘ */
+  align-self: flex-start;
+  margin-left: auto;
   order: 1;
 }
 
-/* 2. Antraštės ir skaitikliai */
 .TodoWrapper h1 {
   color: #fff;
-  margin: 0 auto;
   font-size: 1.75rem;
   width: 100%;
   text-align: center;
   margin: 0;
 }
+
 .TodoWrapper .completed-count {
   color: #19a132;
   font-weight: bold;
@@ -29,6 +28,7 @@
   text-align: center;
   margin: 0;
 }
+
 .TodoWrapper .incomplete-count {
   color: #ff9800;
   font-weight: bold;
@@ -37,51 +37,102 @@
   margin: 0;
 }
 
-/* 3. Notification langas */
-.TodoWrapper .notification {
+.notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 1rem 1.5rem;
   border-radius: 6px;
-  max-width: 100%;
+  border: 2px solid #c5ffae;
+  background: #333;
+  color: #fff;
   font-weight: bold;
-  animation: fadeIn 0.5s ease;
+  max-width: 60%;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
 }
+
+.task-item.completed {
+  position: relative;
+}
+
+.task-item.completed::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(100, 100, 100, 0.3);
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .TodoWrapper .notification.success {
   background: #4caf50;
-  color: #000;
 }
-/* error ir delete sujungti į vieną taisyklę */
+
 .TodoWrapper .notification.error,
 .TodoWrapper .notification.delete {
   background: #f44336;
-  color: #000;
 }
 
-/* 4. Paieškos įvedimas */
-.TodoWrapper .todo-input {
+.search-container {
+  position: relative;
   width: 40%;
+  margin: 0 auto;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #60a5fa;
+  font-size: 1.2rem;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  pointer-events: none;
+}
+
+.TodoWrapper .todo-input {
+  width: 100%;
   margin: 0 auto;
   align-items: center;
   background: none;
   border: 1px solid #8758ff;
   color: #e0f2fe;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1rem 0.6rem 2.5rem; /* kairinis padding dėl ikonos */
   border-radius: 6px;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
+
 .TodoWrapper .todo-input:focus {
   border-color: #60a5fa;
   box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
 }
+
 .TodoWrapper .todo-input::placeholder {
   color: #94a3b8;
 }
 
-/* 5. Kontrolės juosta (top-bar) */
+.TodoWrapper .todo-input:focus + .search-icon {
+  opacity: 1;
+  color: #3b82f6;
+}
+
 .TodoWrapper .top-bar {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
 }
+
 .TodoWrapper .select-all-container,
 .TodoWrapper .right-container {
   flex: 1;
@@ -92,7 +143,7 @@
 
 .TodoWrapper .middle-container {
   display: flex;
-  justify-content: flex-start; /* vietoje center */
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -101,13 +152,13 @@
   align-items: center;
   gap: 0.5rem;
 }
+
 .TodoWrapper .select-all-checkbox {
   width: 20px;
   height: 20px;
   border-radius: 4px;
 }
 
-/* Mygtukai */
 .TodoWrapper .new-task-button,
 .TodoWrapper .delete-all-button {
   padding: 0.7rem 1.2rem;
@@ -116,151 +167,46 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .TodoWrapper .new-task-button {
   background: #8758ff;
   margin-right: auto;
   color: #fff;
   border: none;
 }
+
 .TodoWrapper .new-task-button:hover {
   background: #6b46c1;
 }
+
 .TodoWrapper .delete-all-button {
   background: #e60000;
   color: #fff;
   border: none;
 }
+
 .TodoWrapper .delete-all-button:hover {
   background: #c62828;
 }
 
-.TodoWrapper .edit-icon:hover {
-  background-color: #4df3ff !important;
-}
-.TodoWrapper .delete-icon:hover {
-  background-color: #e60000 !important;
-}
-
-.TodoWrapper .edit-icon {
-  background: none !important;
-  border: 2px solid green !important;
-  color: green !important;
-}
-
-.TodoWrapper .delete-icon {
-  background: none !important;
-  border: 2px solid #ff4d4d !important;
-  color: #ff4d4d !important;
-}
-
-/* 6. Užduočių sąrašas */
-.TodoWrapper .tasks-container {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 1rem;
-}
-
-.TodoWrapper .task-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 1rem;
-  background: #7a5df2;
-  border-radius: 10px;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.25);
-  gap: 1rem;
-}
-
-.TodoWrapper .task-item.completed {
-  background: #d3d3d3;
-  animation: pulse 0.6s ease;
-}
-.TodoWrapper .task-item.completed p,
-.TodoWrapper .task-item.completed span {
-  color: #777;
-  text-decoration: line-through;
-}
-
-.TodoWrapper .todo-content {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-grow: 1;
-  padding-left: 0.25rem;
-}
-
-.TodoWrapper .todo-content > *:last-child {
-  margin-right: 0;
-}
-
-.TodoWrapper .todo-content > input,
-.TodoWrapper .todo-content > h3,
-.TodoWrapper .todo-content > p,
-.TodoWrapper .todo-content > textarea,
-.TodoWrapper .todo-content > select {
-  margin-right: 1rem;
-}
-
-.TodoWrapper .task-checkbox {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-}
-
-/* 7. Formos redagavimo laukai */
-.TodoWrapper .todo-edit-input,
-.TodoWrapper .todo-edit-textarea,
-.TodoWrapper .todo-edit-select {
-  box-sizing: border-box;
-  border: 2px solid #8758ff;
-  border-radius: 6px;
-  background: #fff;
-  color: #333;
-  font-size: 1rem;
-  height: 2.5rem;
-  padding: 0 0.75rem;
-  margin: 0;
-}
-
-.TodoWrapper .todo-actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
-}
-
-.TodoWrapper .todo-edit-input {
-  flex: 0 0 120px;
-  width: 120px;
-}
-.TodoWrapper .todo-edit-textarea {
-  flex: 1;
-  min-width: 200px;
-  resize: vertical;
-}
-.TodoWrapper .todo-edit-select {
-  flex: 0 0 120px;
-  width: 120px;
-  direction: rtl;
-  text-align: left;
-}
-.TodoWrapper .todo-edit-select option {
-  direction: ltr;
-}
-
-.TodoWrapper .Todo {
-  position: relative;
-}
-
-/* 8. Animacijos */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translate(-50%, -60%);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -60%);
   }
 }

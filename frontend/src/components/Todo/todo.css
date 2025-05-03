@@ -1,4 +1,4 @@
-.Todo {
+.task-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -7,16 +7,10 @@
   background: #7a5df2;
   gap: 1rem;
   width: 100%;
+  margin-bottom: 0.5rem;
 }
 
-.Todo .todo-inner {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1;
-}
-
-.Todo .todo-content {
+.todo-content {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -31,25 +25,31 @@
   height: 20px;
 }
 
-.Todo .todo-content h3,
-.Todo .todo-content p,
-.Todo .todo-content .todo-status {
+.todo-content h3,
+.todo-content p,
+.todo-content .todo-status {
   margin: 0;
   color: #fff;
   font-size: 1rem;
 }
 
+.task-item .todo-content h3,
+.task-item .todo-content p,
+.task-item .todo-content .todo-status {
+  padding-left: 3rem; /* jei reikia platesniu tarpu */
+}
+
 /* “Išsaugota” ikona */
-.Todo .save-icon {
+.save-icon {
   background: #4caf50;
   color: #fff;
-  border: none;
+  border: 2px solid #fff;
   padding: 0.5rem;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s;
 }
-.Todo .save-icon:hover {
+.save-icon:hover {
   background: #45a049;
 }
 
@@ -66,6 +66,34 @@
 
 .task-item.completed {
   background: #d3d3d3;
+  opacity: 0.6;
+  position: relative;
+  overflow: visible;
+}
+
+.task-item.completed::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  height: 2.5px;
+  transform: translateY(-50%);
+}
+
+.task-item.completed .todo-content h3,
+.task-item.completed .todo-content p,
+.task-item.completed .todo-status {
+  /* color: #777; */
+  pointer-events: none;
+  user-select: none;
+}
+
+.task-item.completed .edit-icon,
+.task-item.completed .delete-icon {
+  opacity: 0.5;
+  pointer-events: auto;
 }
 
 .task-item .task-checkbox {
@@ -93,9 +121,9 @@
 }
 
 /* Redagavimo laukai */
-.Todo .todo-edit-input,
-.Todo .todo-edit-textarea,
-.Todo .todo-edit-select {
+.todo-edit-input,
+.todo-edit-textarea,
+.todo-edit-select {
   box-sizing: border-box;
   border: 2px solid #8758ff;
   border-radius: 6px;
@@ -106,59 +134,66 @@
   padding: 0 0.75rem;
   margin-right: 0.5rem;
 }
-.Todo .todo-edit-input {
+.todo-edit-input {
   width: 120px;
 }
-.Todo .todo-edit-textarea {
+.todo-edit-textarea {
   flex: 1;
   min-width: 200px;
   resize: vertical;
 }
-.Todo .todo-edit-select {
+.todo-edit-select {
   width: 120px;
   direction: rtl;
   text-align: left;
 }
-.Todo .todo-edit-select option {
+.todo-edit-select option {
   direction: ltr;
 }
 
 /* Edit/Delete mygtukai */
-.Todo .todo-actions {
+.todo-actions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.Todo .edit-icon,
-.Todo .delete-icon {
+.edit-icon,
+.delete-icon {
   cursor: pointer;
   border: 2px solid transparent;
   border-radius: 8px;
   padding: 0.5rem;
   transition: background 0.2s, border-color 0.2s;
 }
-.Todo .edit-icon {
+.edit-icon {
   border-color: green;
+  color: green;
+  background: none;
 }
-.Todo .edit-icon:hover {
+
+.edit-icon:hover {
   background: #4df3ff;
 }
-.Todo .delete-icon {
+
+.delete-icon {
   border-color: #ff4d4d;
+  color: #ff4d4d;
+  background: none;
 }
-.Todo .delete-icon:hover {
+
+.delete-icon:hover {
   background: #e60000;
 }
 
 /* Pažymėta (completed) stilius */
-.Todo.completed .todo-content *,
-.Todo.completed .todo-content .todo-status {
+.completed .todo-content *,
+.completed .todo-content .todo-status {
   color: #777;
   text-decoration: line-through;
 }
 
 /* Apdorota (showAsDeleted) pavadinimas */
-.Todo .completed-code {
+.completed-code {
   background-color: #1e1e1e;
   color: #c5ffae;
   padding: 0.25rem 0.5rem;
