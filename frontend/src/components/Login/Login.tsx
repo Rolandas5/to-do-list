@@ -28,7 +28,7 @@ export const Login = () => {
 
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email address</label>
             <input
               type="text"
               id="email"
@@ -38,12 +38,12 @@ export const Login = () => {
             />
           </div>
 
-          <div className="form-group password-group">
+          <div className="form-group">
             <label htmlFor="password">Password</label>
             <div className="password-input-wrapper">
               <input
-                type={showPassword ? 'text' : 'password'}
                 id="password"
+                type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -51,13 +51,9 @@ export const Login = () => {
               <button
                 type="button"
                 className="toggle-password"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword((prev) => !prev)}
               >
-                {showPassword ? (
-                  <IoEyeOffOutline size={22} />
-                ) : (
-                  <IoEyeOutline size={22} />
-                )}
+                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
               </button>
             </div>
           </div>

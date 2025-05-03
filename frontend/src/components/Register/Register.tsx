@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import './register.css';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 
 export const Register = () => {
   const [name, setName] = useState('');
@@ -9,6 +10,8 @@ export const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { register } = useContext(AuthContext);
 
@@ -70,28 +73,46 @@ export const Register = () => {
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="new-password"
-              required
-            />
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              autoComplete="new-password"
-              required
-            />
+            <div className="password-input-wrapper">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+              >
+                {showConfirmPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+              </button>
+            </div>
             {passwordError && <p className="field-error">{passwordError}</p>}
           </div>
 
