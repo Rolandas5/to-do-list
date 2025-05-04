@@ -1,0 +1,20 @@
+.main-page {
+  /* tas pats violetinis gradientas kaip body fonas */
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  /* užpildo visą langą po fiksuota navigacija */
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4rem;
+  box-sizing: border-box;
+}
+
+/* Centrinis tekstas */
+.main-page h1 {
+  color: #ff4500; /* ryški “fiery” oranžinė */
+  font-size: 3rem; /* didesnis šriftas */
+  font-weight: 700; /* šiek tiek storesnis */
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* subtilus šešėlis akcentui */
+}

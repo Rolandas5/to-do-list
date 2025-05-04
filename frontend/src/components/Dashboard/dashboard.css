@@ -1,4 +1,5 @@
 .dashboard-container {
+  padding-top: 4rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
@@ -9,6 +10,7 @@
   text-align: left;
   margin-bottom: 1.5rem;
 }
+
 .dashboard-header h1 {
   margin: 0;
   font-size: 2rem;
@@ -50,13 +52,30 @@
 }
 
 /* 5. Responsive: vienas stulpelis siauruose ekranuose */
+
 @media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem 0.5rem;
+  }
+  .dashboard-header {
+    text-align: center;
+  }
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+  .dashboard-header .welcome-text {
+    font-size: 1rem;
+  }
+
   .dashboard-content {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
   .dashboard-card {
-    flex: 1;
+    flex: 1 1 auto;
     width: 100%;
+    margin: 0;
+    order: unset;
+    align-self: stretch;
   }
 }

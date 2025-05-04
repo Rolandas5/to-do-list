@@ -130,7 +130,7 @@ input:-webkit-autofill {
 }
 
 .register-button {
-  background-color: #8758ff;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 5px;
@@ -173,6 +173,17 @@ input:-webkit-autofill {
 
 .login-link a:hover {
   text-decoration: underline;
+}
+
+.site-footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.site-footer {
+  font-size: 1rem;
 }
 
 @media (max-width: 768px) {

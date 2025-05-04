@@ -72,6 +72,7 @@ export const Login = () => {
             Registruokitės
           </NavLink>
         </div>
+        <footer className="site-footer">© 2005</footer>
       </div>
     </div>
   );

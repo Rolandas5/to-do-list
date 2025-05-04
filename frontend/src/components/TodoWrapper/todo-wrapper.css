@@ -129,16 +129,16 @@
 
 .TodoWrapper .top-bar {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.TodoWrapper .select-all-container,
-.TodoWrapper .right-container {
-  flex: 1;
-  display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.TodoWrapper .right-container {
+  margin-left: auto;
+  display: flex; /* jei dar neturėjai */
+  align-items: center;
 }
 
 .TodoWrapper .middle-container {
@@ -170,7 +170,7 @@
 
 .TodoWrapper .new-task-button {
   background: #8758ff;
-  margin-right: auto;
+  margin: 0;
   color: #fff;
   border: none;
 }
@@ -189,24 +189,68 @@
   background: #c62828;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -60%);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
+.TodoWrapper .task-item textarea {
+  min-height: 100px;
+  resize: vertical; /* tik aukštį leidžia keisti */
+  overflow: auto; /* scroll jei per daug teksto */
 }
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translate(-50%, -50%);
+.TodoWrapper .task-item textarea {
+  min-height: unset;
+  /* 2) Nustatom fiksuotą height, kuris atitinka input’o aukštį */
+  height: 2.2rem;
+  /* 3) Išlaikom resizable vertikaliai, jei vis dar reikia */
+  resize: vertical;
+}
+
+.TodoWrapper .task-item input[type='text'],
+.TodoWrapper .task-item textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Paslėpti WebKit rodyklės kampelyje */
+.TodoWrapper .task-item textarea::-webkit-resizer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .TodoWrapper {
+    width: 100% !important; /* užpildo visą plotį */
+    margin: 0 !important; /* panaikina auto-centravimą */
+    padding: 1rem !important; /* vidinis paddingas, kad neužliptų į kraštus */
+    box-sizing: border-box;
   }
-  to {
-    opacity: 0;
-    transform: translate(-50%, -60%);
+
+  .TodoWrapper .task-item input[type='text'],
+  .TodoWrapper .task-item textarea {
+    width: 95% !important; /* pilnas tėvo plotis */
+    box-sizing: border-box !important;
+  }
+
+  .TodoWrapper .task-item textarea {
+    min-height: unset !important;
+    /* 2) Nustatom fiksuotą height, kuris atitinka input’o aukštį */
+    height: 2.2rem !important;
+    /* 3) Išlaikom resizable vertikaliai, jei vis dar reikia */
+    resize: vertical !important;
+  }
+
+  /* 1) Panaikinti bet kokį kairinį padding’ą */
+  .TodoWrapper .task-item .todo-content h3,
+  .TodoWrapper .task-item .todo-content p,
+  .TodoWrapper .task-item .todo-content .todo-status {
+    padding-left: 0 !important;
+  }
+
+  /* 2) Vertikali todo-content struktūra */
+  .TodoWrapper .task-item .todo-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    padding: 0 !important; /* jei buvo global padding */
+    margin: 0 !important;
+    box-sizing: border-box !important;
   }
 }

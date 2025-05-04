@@ -6,7 +6,8 @@ import { Login } from './components/Login/Login';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
-import { TodoWrapper } from './components/TodoWrapper/TodoWrapper';
+import { MainPage } from './components/MainPage/MainPage';
+import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Navigation />
           <Routes>
             {/* Vieši puslapiai */}
-            <Route path="/" element={<TodoWrapper />} />
+            <Route path="/" element={<MainPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
 
@@ -25,8 +26,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
 
-            {/* 404 puslapis ateičiai */}
-            {/* <Route path="*" element={<NotFound />} /> */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
       </AuthProvider>

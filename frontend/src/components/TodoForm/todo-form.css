@@ -5,6 +5,7 @@
   width: 100%;
 }
 
+/* Bendri input/textarea/select stiliai */
 .input-field,
 .textarea-field,
 .select-field {
@@ -15,8 +16,13 @@
   border-radius: 6px;
   outline: none;
   transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+  /* Tamsus fonas + šviesus tekstas, kad matytųsi ant dark wrapperio */
+  background-color: #1a1a40;
+  color: #e0f2fe;
 }
 
+/* Fokusas visiems */
 .input-field:focus,
 .textarea-field:focus,
 .select-field:focus {
@@ -24,11 +30,42 @@
   box-shadow: 0 0 8px rgba(135, 88, 255, 0.5);
 }
 
+/* Textarea specifika */
 .textarea-field {
   min-height: 100px;
-  resize: vertical;
+  resize: vertical; /* leidžia keisti tik aukštį */
+  overflow: auto; /* užtikrina scroll, jei per daug teksto */
 }
 
+/* Jei norėtumėte visai paslėpti kampo „resizer“ ikonytę WebKit naršyklėse: */
+.textarea-field::-webkit-resizer {
+  display: none;
+}
+
+/* ====================
+   Statuso <select>
+   ==================== */
+.select-field {
+  /* nuimame browser default arrow */
+  appearance: none;
+  /* pridedame savo rodyklę */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%226%22%20viewBox%3D%220%200%2010%206%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l5%206%205-6z%22%20fill%3D%22%23e0f2fe%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+.textarea-field {
+  min-height: 100px;
+  resize: vertical; /* leidžia keisti tik aukštį */
+  overflow: auto; /* užtikrina scroll, jei per daug teksto */
+}
+
+/* Jei norėtumėte visai paslėpti kampo „resizer“ ikonytę WebKit naršyklėse: */
+.textarea-field::-webkit-resizer {
+  display: none;
+}
+
+/* Submit mygtukas */
 .submit-button {
   width: 100%;
   padding: 0.8rem 1rem;
@@ -40,7 +77,52 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 .submit-button:hover {
   background-color: #6b45d5;
+}
+
+/* ====================
+   Mobilus režimas (≤768px)
+   ==================== */
+@media (max-width: 768px) {
+  /* Forma pilnai ekrane, su aiškiu margin’u aplinkui */
+  .todo-form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 400px;
+    margin: 1rem auto;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  /* Visi įvedimo laukai 100% pločio, be smulkių hack’ų */
+  .todo-form .input-field,
+  .todo-form .textarea-field,
+  .todo-form .select-field {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .textarea-field {
+    min-height: 100px;
+    resize: vertical; /* leidžia tempti tik aukštį */
+    overflow: auto; /* scroll jei per daug teksto */
+  }
+
+  /* Paslepiam WebKit „kamputį“ su rodykle */
+  .textarea-field::-webkit-resizer {
+    display: none;
+  }
+
+  .todo-form {
+    width: auto !important;
+    max-width: none !important;
+    margin: 1rem !important;
+    padding: 1rem !important;
+    box-sizing: border-box !important;
+  }
 }

@@ -130,6 +130,7 @@ export const Register = () => {
             Prisijunkite
           </NavLink>
         </div>
+        <footer className="site-footer">© 2005</footer>
       </div>
     </div>
   );
