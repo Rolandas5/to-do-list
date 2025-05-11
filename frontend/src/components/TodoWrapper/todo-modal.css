@@ -78,6 +78,10 @@
   background: #0a8615;
 }
 
+.modal-buttons .btn {
+  min-width: 80px;
+}
+
 /* --- Pridėti užduotį (TodoForm) formos stiliai --- */
 
 .todo-form {

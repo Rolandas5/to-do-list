@@ -261,13 +261,13 @@ export const TodoWrapper = () => {
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>Ar tikrai norite ištrinti pažymėtas užduotis?</h2>
-            <div className="modal-buttons">
+            <div className="btn modal-buttons">
               <button onClick={confirmDelete} className="confirm-btn">
                 Taip
               </button>
               <button
                 onClick={() => setIsConfirmModalOpen(false)}
-                className="cancel-btn"
+                className="btn cancel-btn"
               >
                 Ne
               </button>
